@@ -206,7 +206,22 @@
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         
         .pulse { animation: pulseGlow 2s infinite; }
-        @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        /* 📱 Mobile Responsiveness & Performance Anti-Lag */
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .header-actions { width: 100%; justify-content: space-between; }
+            .card { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: var(--card); }
+            .modal-overlay { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(0,0,0,0.95); }
+            .chat-panel { width: calc(100vw - 48px); right: 0; bottom: 72px; }
+            .block-card { padding: 16px; }
+            .terminal-body { height: 300px; }
+            .flow-body { height: 300px; padding: 20px; }
+        }
+        
+        /* 🚀 Hardware Acceleration */
+        .block-card, .btn, .chat-panel, .wf-node {
+            will-change: transform;
+        }
     </style>
 </head>
 <body>
