@@ -6,7 +6,7 @@
     <title>OneBee Digital — Mô hình Quản trị Hiện đại cùng AI</title>
     <meta name="description" content="Dashboard mô hình quản trị hiện đại 4 khối - HTX OneBee - Hội thi Khởi nghiệp ĐMST Tây Ninh 2026">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -23,6 +23,8 @@
             --blue: #4d8bff;
             --purple: #a855f7;
             --green: #22c55e;
+            --terminal-bg: #0d1117;
+            --terminal-text: #c9d1d9;
         }
 
         body {
@@ -30,634 +32,203 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle at 20% 30%, rgba(0,212,170,0.05) 0%, transparent 50%),
                         radial-gradient(circle at 80% 70%, rgba(168,85,247,0.04) 0%, transparent 50%);
-            z-index: 0;
-            pointer-events: none;
+            z-index: 0; pointer-events: none;
         }
 
         .layout {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
+            display: grid; grid-template-columns: 260px 1fr;
+            min-height: 100vh; position: relative; z-index: 1;
         }
 
-        @media (max-width: 900px) {
-            .layout { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-        }
+        @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none !important; } }
 
         /* Sidebar */
         .sidebar {
-            background: var(--bg2);
-            border-right: 1px solid var(--border);
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
+            background: var(--bg2); border-right: 1px solid var(--border);
+            padding: 24px 16px; display: flex; flex-direction: column;
         }
-
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            margin-bottom: 32px;
-        }
-
-        .sidebar-logo .bee {
-            font-size: 28px;
-        }
-
+        .sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 8px 12px; margin-bottom: 32px; }
+        .sidebar-logo .bee { font-size: 28px; }
         .sidebar-logo span {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 18px; font-weight: 700;
             background: linear-gradient(135deg, var(--teal), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         .sidebar-section {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text2);
-            padding: 0 12px;
-            margin-bottom: 8px;
-            margin-top: 24px;
+            font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text2); padding: 0 12px; margin-bottom: 8px; margin-top: 24px;
         }
-
         .sidebar-section:first-of-type { margin-top: 0; }
-
         .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            color: var(--text2);
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 2px;
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 10px; font-size: 14px; color: var(--text2);
+            cursor: pointer; transition: all 0.2s; margin-bottom: 2px;
         }
-
-        .nav-item:hover {
-            background: rgba(255,255,255,0.05);
-            color: var(--text);
-        }
-
-        .nav-item.active {
-            background: rgba(0,212,170,0.1);
-            color: var(--teal);
-            font-weight: 600;
-        }
-
-        .nav-item .icon { font-size: 18px; width: 24px; text-align: center; }
-
-        .nav-badge {
-            margin-left: auto;
-            background: var(--red);
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 8px;
-        }
-
-        .sidebar-footer {
-            margin-top: auto;
-            padding: 16px 12px;
-            border-top: 1px solid var(--border);
-        }
-
-        .sidebar-footer .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--text2);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--green);
-            box-shadow: 0 0 8px rgba(34,197,94,0.5);
-        }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+        .nav-item.active { background: rgba(0,212,170,0.1); color: var(--teal); font-weight: 600; }
+        .nav-badge { margin-left: auto; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 8px; }
+        .sidebar-footer { margin-top: auto; padding: 16px 12px; border-top: 1px solid var(--border); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); }
 
         /* Main content */
-        .main {
-            padding: 24px 32px;
-            overflow-y: auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
+        .main { padding: 24px 32px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
+        .header h1 { font-size: 24px; font-weight: 700; }
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
+            display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px;
+            border-radius: 10px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; font-family: inherit;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--teal), #00b894);
-            color: var(--bg);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-
+        .btn-primary { background: linear-gradient(135deg, var(--teal), #00b894); color: var(--bg); }
+        .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
         .btn:hover { transform: translateY(-1px); }
 
         /* 4 Block Architecture Cards */
-        .blocks-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
+        .blocks-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
         @media (max-width: 1100px) { .blocks-grid { grid-template-columns: repeat(2, 1fr); } }
-
+        @media (max-width: 600px) { .blocks-grid { grid-template-columns: 1fr; } }
+        
         .block-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 20px; transition: all 0.3s; position: relative; overflow: hidden; cursor: pointer;
         }
-
-        .block-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-        }
-
+        .block-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
         .block-card:nth-child(1)::before { background: linear-gradient(90deg, var(--teal), #00b894); }
         .block-card:nth-child(2)::before { background: linear-gradient(90deg, var(--gold), #e0a030); }
         .block-card:nth-child(3)::before { background: linear-gradient(90deg, var(--green), #16a34a); }
         .block-card:nth-child(4)::before { background: linear-gradient(90deg, var(--purple), #7c3aed); }
-
-        .block-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255,255,255,0.15);
-        }
-
-        .block-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .block-num {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-        }
-
+        .block-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.25); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        
+        .block-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .block-num { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
         .block-card:nth-child(1) .block-num { background: rgba(0,212,170,0.15); color: var(--teal); }
         .block-card:nth-child(2) .block-num { background: rgba(244,185,66,0.15); color: var(--gold); }
         .block-card:nth-child(3) .block-num { background: rgba(34,197,94,0.15); color: var(--green); }
         .block-card:nth-child(4) .block-num { background: rgba(168,85,247,0.15); color: var(--purple); }
-
         .block-icon { font-size: 24px; }
+        .block-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+        .block-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 12px; }
+        .block-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+        .tool-tag { font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text2); }
+        .block-status { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 11px; }
 
-        .block-title {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .block-desc {
-            font-size: 12px;
-            color: var(--text2);
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
-
-        .block-tools {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .tool-tag {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            color: var(--text2);
-        }
-
-        .block-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 12px;
-            font-size: 11px;
-        }
-
-        .status-active { color: var(--green); }
-        .status-pending { color: var(--gold); }
-
-        /* Workflows section */
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
         @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
-
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Workflow nodes */
-        .workflow {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; backdrop-filter: blur(10px); }
+        .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        
+        /* Workflows nodes */
+        .workflow { display: flex; flex-direction: column; gap: 8px; }
         .wf-node {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 13px;
-            transition: all 0.3s;
-            cursor: pointer;
+            display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            border-radius: 10px; font-size: 13px; transition: all 0.3s; cursor: pointer;
         }
-
-        .wf-node:hover {
-            background: rgba(255,255,255,0.06);
-            transform: translateX(4px);
-        }
-
-        .wf-node .node-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
+        .wf-node:hover { background: rgba(255,255,255,0.06); transform: translateX(4px); }
+        .node-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
         .wf-node:nth-child(1) .node-icon { background: rgba(0,212,170,0.15); }
-        .wf-node:nth-child(2) .node-icon { background: rgba(244,185,66,0.15); }
-        .wf-node:nth-child(3) .node-icon { background: rgba(77,139,255,0.15); }
-
-        .wf-node .node-info { flex: 1; }
-        .wf-node .node-name { font-weight: 600; font-size: 13px; }
-        .wf-node .node-desc { font-size: 11px; color: var(--text2); }
-
-        .wf-arrow {
-            text-align: center;
-            color: var(--text2);
-            font-size: 12px;
-        }
+        .wf-node:nth-child(3) .node-icon { background: rgba(244,185,66,0.15); }
+        .wf-node:nth-child(5) .node-icon { background: rgba(77,139,255,0.15); }
+        .wf-arrow { text-align: center; color: var(--text2); font-size: 12px; }
 
         /* Live stats */
-        .live-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .live-stat {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
+        .live-stats { display: flex; flex-direction: column; gap: 16px; }
+        .live-stat { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
         .live-stat:last-child { border-bottom: none; }
-
-        .live-stat .label {
-            font-size: 13px;
-            color: var(--text2);
-        }
-
-        .live-stat .value {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .live-stat .change {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 6px;
-        }
-
-        .change-up {
-            background: rgba(0,212,170,0.1);
-            color: var(--teal);
-        }
-
-        .change-down {
-            background: rgba(255,77,106,0.1);
-            color: var(--red);
-        }
-
-        /* AI Chat widget */
-        .chat-widget {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 100;
-        }
-
-        .chat-toggle {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--purple), #7c3aed);
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(168,85,247,0.4);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chat-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        .chat-panel {
-            position: absolute;
-            bottom: 72px;
-            right: 0;
-            width: 380px;
-            max-height: 500px;
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            animation: slideUp 0.3s ease;
-        }
-
-        .chat-panel.open { display: flex; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .chat-header {
-            padding: 16px 20px;
-            background: rgba(168,85,247,0.1);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-header .ai-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--purple), var(--teal));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .chat-header .ai-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .chat-header .ai-status {
-            font-size: 11px;
-            color: var(--green);
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 350px;
-        }
-
-        .msg {
-            max-width: 85%;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        .msg-ai {
-            background: rgba(168,85,247,0.1);
-            border: 1px solid rgba(168,85,247,0.15);
-            align-self: flex-start;
-        }
-
-        .msg-user {
-            background: rgba(0,212,170,0.1);
-            border: 1px solid rgba(0,212,170,0.15);
-            align-self: flex-end;
-        }
-
-        .chat-input-wrap {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-input-wrap input {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: var(--text);
-            font-family: inherit;
-            outline: none;
-        }
-
-        .chat-input-wrap input:focus {
-            border-color: var(--purple);
-        }
-
-        .chat-send {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: var(--purple);
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .chat-send:hover { background: #7c3aed; }
+        .live-stat .value { font-size: 20px; font-weight: 700; }
+        .change-up { background: rgba(0,212,170,0.1); color: var(--teal); padding: 2px 8px; border-radius: 6px; font-size: 11px;}
 
         /* Activity log */
-        .activity-log {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .activity-item {
-            display: flex;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            font-size: 13px;
-            align-items: flex-start;
-        }
-
-        .activity-item:last-child { border-bottom: none; }
-
-        .activity-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-            background: rgba(255,255,255,0.05);
-        }
-
-        .activity-text { flex: 1; }
-        .activity-text strong { font-weight: 600; }
+        .activity-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; align-items: flex-start; }
+        .activity-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: rgba(255,255,255,0.05); }
         .activity-time { font-size: 11px; color: var(--text2); margin-top: 2px; }
 
-        /* Pulse animation for live */
-        .pulse {
-            animation: pulseGlow 2s infinite;
+        /* Modals */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal-content {
+            background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+            width: 90%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column;
+            transform: translateY(20px) scale(0.95); transition: transform 0.3s; overflow: hidden;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        .modal-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
+        .modal-close { background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; opacity: 0.7; }
+        .modal-close:hover { opacity: 1; }
+        
+        /* Terminal */
+        .terminal-body { padding: 20px; font-family: 'Fira Code', monospace; font-size: 13px; color: var(--terminal-text); background: var(--terminal-bg); height: 400px; overflow-y: auto; line-height: 1.6; }
+        .term-prompt { color: var(--green); font-weight: 500; }
+        .term-command { color: var(--text); }
+        .term-info { color: var(--blue); }
+        .term-warning { color: var(--gold); }
+        .term-success { color: var(--teal); }
+        .cursor { display: inline-block; width: 8px; height: 15px; background: var(--text); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 4px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
+        /* Flow UI */
+        .flow-body { padding: 40px; background: #f8f9fa; color: #333; height: 400px; position: relative; overflow: hidden; }
+        .flow-node { position: absolute; background: white; border-radius: 8px; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 180px; font-size: 12px; border-top: 4px solid var(--teal); opacity: 0; transform: translateY(10px); }
+        .flow-line { position: absolute; border: 1px dashed #ccc; z-index: 0; opacity: 0; }
+        .flow-node strong { display: block; font-size: 13px; margin-bottom: 4px; }
+
+        /* AI Chat Widget */
+        .chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 100; }
+        .chat-toggle { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), #7c3aed); border: none; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 20px rgba(168,85,247,0.4); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .chat-toggle:hover { transform: scale(1.1); }
+        .chat-panel { position: absolute; bottom: 72px; right: 0; width: 380px; background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; display: none; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: slideUp 0.3s ease; }
+        .chat-panel.open { display: flex; }
+        .chat-header { padding: 16px 20px; background: rgba(168,85,247,0.1); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .chat-header .ai-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--teal)); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .chat-messages { height: 350px; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+        .msg-ai { background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.15); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-user { background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.15); align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-input-wrap { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+        .chat-input-wrap input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--text); outline: none; }
+        .chat-send { width: 40px; height: 40px; border-radius: 10px; background: var(--purple); border: none; color: white; cursor: pointer; }
+        
+        .typing-indicator { display: flex; gap: 4px; padding: 4px 8px; }
+        .typing-dot { width: 6px; height: 6px; background: var(--text2); border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        
+        .pulse { animation: pulseGlow 2s infinite; }
+        @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
     </style>
 </head>
 <body>
     <div class="layout">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-logo">
-                <span class="bee">🐝</span>
-                <span>OneBee Digital</span>
-            </div>
-
+            <div class="sidebar-logo"><span class="bee">🐝</span><span>OneBee Digital</span></div>
             <div class="sidebar-section">Tổng quan</div>
             <div class="nav-item active"><span class="icon">📊</span> Dashboard</div>
-            <div class="nav-item"><span class="icon">🔄</span> Workflows <span class="nav-badge">3</span></div>
-            <div class="nav-item"><span class="icon">🤖</span> AI Agent</div>
-
+            <div class="nav-item" onclick="openFlowModal()"><span class="icon">🔄</span> Workflows <span class="nav-badge">3</span></div>
+            <div class="nav-item" onclick="toggleChat()"><span class="icon">🤖</span> AI Agent</div>
+            
             <div class="sidebar-section">Khối vận hành</div>
             <div class="nav-item"><span class="icon">📋</span> Dự án & OKRs</div>
             <div class="nav-item"><span class="icon">💬</span> Giao tiếp</div>
-            <div class="nav-item"><span class="icon">📚</span> Tri thức nội bộ</div>
-
+            
             <div class="sidebar-section">Khối kế toán</div>
             <div class="nav-item"><span class="icon">💰</span> Doanh thu</div>
             <div class="nav-item"><span class="icon">📃</span> Hóa đơn</div>
-            <div class="nav-item"><span class="icon">📈</span> Báo cáo</div>
-
-            <div class="sidebar-section">Hệ thống</div>
-            <div class="nav-item"><span class="icon">⚙️</span> Cài đặt</div>
-            <div class="nav-item"><span class="icon">🔌</span> API & Kết nối</div>
-
+            
             <div class="sidebar-footer">
-                <div class="status">
-                    <span class="status-dot"></span>
-                    Hệ thống đang hoạt động
-                </div>
-                <div style="font-size: 11px; color: var(--text2); margin-top: 8px;">
-                    n8n: 3 workflows active<br>
-                    AI CLI: Online ✓
-                </div>
+                <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text2);"><span class="status-dot"></span>Hệ thống đang hoạt động</div>
             </div>
         </aside>
 
@@ -665,318 +236,296 @@
         <main class="main">
             <div class="header">
                 <div>
-                    <h1>🏠 Dashboard Quản trị</h1>
+                    <h1>🏠 Dashboard Quản trị 4 Khối</h1>
                     <p style="color: var(--text2); font-size: 13px; margin-top: 4px;">HTX OneBee — Cập nhật realtime lúc <span class="pulse" id="liveTime"></span></p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-ghost">📥 Xuất báo cáo</button>
-                    <button class="btn btn-primary">+ Tạo workflow mới</button>
+                    <button class="btn btn-ghost" onclick="toggleChat()">🤖 Hỏi AI</button>
+                    <button class="btn btn-primary" onclick="openFlowModal()">+ Quản lý Workflow</button>
                 </div>
             </div>
 
-            <!-- 4 Blocks Architecture -->
+            <!-- 4 Blocks -->
             <div class="blocks-grid">
                 <div class="block-card">
-                    <div class="block-header">
-                        <span class="block-num">KHỐI 1</span>
-                        <span class="block-icon">🏢</span>
-                    </div>
+                    <div class="block-header"><span class="block-num">KHỐI 1</span><span class="block-icon">🏢</span></div>
                     <div class="block-title">Vận hành & Cộng tác</div>
-                    <div class="block-desc">Trung tâm giao tiếp, quản lý dự án, OKRs và tri thức nội bộ</div>
-                    <div class="block-tools">
-                        <span class="tool-tag">LarkSuite</span>
-                        <span class="tool-tag">Notion</span>
-                    </div>
-                    <div class="block-status status-active">
-                        <span class="status-dot"></span> Đang hoạt động — 12 thành viên
-                    </div>
+                    <div class="block-desc">Quản lý dự án, OKRs và tri thức</div>
+                    <div class="block-tools"><span class="tool-tag">LarkSuite</span><span class="tool-tag">Notion</span></div>
+                    <div class="block-status" style="color:var(--green)"><span class="status-dot"></span> Đang hoạt động</div>
                 </div>
 
                 <div class="block-card">
-                    <div class="block-header">
-                        <span class="block-num">KHỐI 2</span>
-                        <span class="block-icon">💳</span>
-                    </div>
+                    <div class="block-header"><span class="block-num">KHỐI 2</span><span class="block-icon">💳</span></div>
                     <div class="block-title">Kế toán Chuẩn hóa</div>
-                    <div class="block-desc">Minh bạch luồng tiền, đối soát hóa đơn theo chuẩn pháp luật</div>
-                    <div class="block-tools">
-                        <span class="tool-tag">CoreDX</span>
-                        <span class="tool-tag">Misa</span>
-                    </div>
-                    <div class="block-status status-active">
-                        <span class="status-dot"></span> Đã đồng bộ — 847 giao dịch
-                    </div>
+                    <div class="block-desc">Minh bạch luồng tiền, đối soát hóa đơn</div>
+                    <div class="block-tools"><span class="tool-tag">CoreDX</span><span class="tool-tag">Misa</span></div>
+                    <div class="block-status" style="color:var(--green)"><span class="status-dot"></span> Đã đồng bộ 847 GD</div>
                 </div>
 
-                <div class="block-card">
-                    <div class="block-header">
-                        <span class="block-num">KHỐI 3</span>
-                        <span class="block-icon">⚡</span>
-                    </div>
-                    <div class="block-title">Tự động hóa</div>
-                    <div class="block-desc">"Trái tim" kết nối — Zero-touch operations giữa các khối</div>
-                    <div class="block-tools">
-                        <span class="tool-tag">n8n</span>
-                        <span class="tool-tag">Hermes Agent</span>
-                    </div>
-                    <div class="block-status status-active">
-                        <span class="status-dot"></span> 3 workflows — <span id="execCount">1,247</span> lần chạy
-                    </div>
+                <div class="block-card" onclick="openFlowModal()">
+                    <div class="block-header"><span class="block-num">KHỐI 3</span><span class="block-icon">⚡</span></div>
+                    <div class="block-title">Tự động hóa (Nhấn xem)</div>
+                    <div class="block-desc">Zero-touch operations giữa các khối</div>
+                    <div class="block-tools"><span class="tool-tag">n8n</span><span class="tool-tag">Hermes</span></div>
+                    <div class="block-status" style="color:var(--teal)"><span class="status-dot" style="background:var(--teal)"></span> 3 workflows active</div>
                 </div>
 
-                <div class="block-card">
-                    <div class="block-header">
-                        <span class="block-num">KHỐI 4</span>
-                        <span class="block-icon">🧠</span>
-                    </div>
-                    <div class="block-title">AI Engineering</div>
-                    <div class="block-desc">Trợ lý thông minh, giám sát và báo cáo sức khỏe doanh nghiệp</div>
-                    <div class="block-tools">
-                        <span class="tool-tag">Openclaw</span>
-                        <span class="tool-tag">Goclaw</span>
-                        <span class="tool-tag">CLI</span>
-                    </div>
-                    <div class="block-status status-active">
-                        <span class="status-dot"></span> LLM Online — Llama 3 8B
-                    </div>
+                <div class="block-card" onclick="openTerminalModal()">
+                    <div class="block-header"><span class="block-num">KHỐI 4</span><span class="block-icon">🧠</span></div>
+                    <div class="block-title">AI Engineering (Nhấn xem)</div>
+                    <div class="block-desc">Trợ lý CLI, giám sát sức khỏe Server</div>
+                    <div class="block-tools"><span class="tool-tag">openclaw</span><span class="tool-tag">goclaw</span></div>
+                    <div class="block-status" style="color:var(--purple)"><span class="status-dot" style="background:var(--purple)"></span> Llama 3 8B Online</div>
                 </div>
             </div>
 
-            <!-- Workflows & Stats -->
+            <!-- Bottom section -->
             <div class="two-col">
                 <div class="card">
                     <div class="section-title">🔄 Workflows Đang Chạy (n8n)</div>
                     <div class="workflow">
-                        <div class="wf-node">
+                        <div class="wf-node" onclick="openFlowModal()">
                             <div class="node-icon">📊</div>
-                            <div class="node-info">
-                                <div class="node-name">Báo cáo Doanh thu Hàng ngày</div>
-                                <div class="node-desc">Misa → Tổng hợp → Gửi Lark lúc 18:00</div>
-                            </div>
-                            <span style="font-size:11px; color: var(--green);">● Chạy OK</span>
+                            <div style="flex:1"><div style="font-weight:600;font-size:13px">Báo cáo Doanh thu Hàng ngày</div><div style="font-size:11px;color:var(--text2)">Misa → Notion → Gửi Lark lúc 18:00</div></div>
+                            <span style="font-size:11px;color:var(--green)">● OK</span>
                         </div>
-                        <div class="wf-arrow">↓ trigger mỗi ngày</div>
+                        <div class="wf-arrow">↓</div>
                         <div class="wf-node">
                             <div class="node-icon">📦</div>
-                            <div class="node-info">
-                                <div class="node-name">Cập nhật Trạng thái Đơn hàng</div>
-                                <div class="node-desc">Khi đơn thanh toán → Cập nhật Notion + Lark</div>
-                            </div>
-                            <span style="font-size:11px; color: var(--green);">● Chạy OK</span>
+                            <div style="flex:1"><div style="font-weight:600;font-size:13px">Sync Đơn hàng Shopee</div><div style="font-size:11px;color:var(--text2)">Shopee API → CoreDX → Cảnh báo tồn kho</div></div>
+                            <span style="font-size:11px;color:var(--green)">● OK</span>
                         </div>
-                        <div class="wf-arrow">↓ webhook realtime</div>
+                        <div class="wf-arrow">↓</div>
                         <div class="wf-node">
                             <div class="node-icon">⚠️</div>
-                            <div class="node-info">
-                                <div class="node-name">Alert Bất thường Tài chính</div>
-                                <div class="node-desc">Chi > 5tr trong 1 ngày → Alert Giám đốc</div>
-                            </div>
-                            <span style="font-size:11px; color: var(--gold);">● Sẵn sàng</span>
+                            <div style="flex:1"><div style="font-weight:600;font-size:13px">Alert Bất thường Tài chính</div><div style="font-size:11px;color:var(--text2)">AI Check: Chi > 5tr trong ngày → Alert Giám đốc</div></div>
+                            <span style="font-size:11px;color:var(--gold)">● Standby</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="section-title">📈 Hiệu suất Trước / Sau Triển khai</div>
+                    <div class="section-title">📈 Hiệu quả Triển khai (Sau 1 tháng)</div>
                     <div class="live-stats">
                         <div class="live-stat">
-                            <div>
-                                <div class="label">Thời gian xử lý kế toán/ngày</div>
-                                <div style="font-size:11px; color: var(--text2); margin-top:2px;">Trước: 4 giờ → Sau: 1.5 giờ</div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div class="value" style="color: var(--teal);">-62%</div>
-                                <span class="change change-up">↓ Giảm mạnh</span>
-                            </div>
+                            <div><div style="font-size:13px;color:var(--text2)">Thời gian xử lý kế toán/ngày</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Trước: 4 giờ → Sau: 1.5 giờ</div></div>
+                            <div style="text-align:right"><div style="font-size:20px;font-weight:700;color:var(--teal)">-62%</div><span class="change-up">↓ Giảm mạnh</span></div>
                         </div>
                         <div class="live-stat">
-                            <div>
-                                <div class="label">Sai sót nhập liệu</div>
-                                <div style="font-size:11px; color: var(--text2); margin-top:2px;">Trước: 5% → Sau: 0.3%</div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div class="value" style="color: var(--teal);">-94%</div>
-                                <span class="change change-up">↓ Gần như 0</span>
-                            </div>
+                            <div><div style="font-size:13px;color:var(--text2)">Sai sót nhập liệu</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Trước: 5% → Sau: 0.3%</div></div>
+                            <div style="text-align:right"><div style="font-size:20px;font-weight:700;color:var(--teal)">-94%</div><span class="change-up">↓ Gần như 0</span></div>
                         </div>
                         <div class="live-stat">
-                            <div>
-                                <div class="label">Thời gian ra báo cáo tháng</div>
-                                <div style="font-size:11px; color: var(--text2); margin-top:2px;">Trước: 3-5 ngày → Sau: 30 phút</div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div class="value" style="color: var(--teal);">30 phút</div>
-                                <span class="change change-up">↓ x100 nhanh hơn</span>
-                            </div>
-                        </div>
-                        <div class="live-stat">
-                            <div>
-                                <div class="label">Kênh giao tiếp phân mảnh</div>
-                                <div style="font-size:11px; color: var(--text2); margin-top:2px;">Trước: 4+ → Sau: 1 (LarkSuite)</div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div class="value" style="color: var(--gold);">1 kênh</div>
-                                <span class="change change-up">✓ Thống nhất</span>
-                            </div>
+                            <div><div style="font-size:13px;color:var(--text2)">Thời gian ra báo cáo tháng</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Trước: 3 ngày → Sau: 30 phút</div></div>
+                            <div style="text-align:right"><div style="font-size:20px;font-weight:700;color:var(--teal)">30 phút</div><span class="change-up">⚡ Realtime</span></div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Activity Log -->
-            <div class="card" style="margin-bottom: 32px;">
-                <div class="section-title">📡 Hoạt động Gần đây (Realtime)</div>
-                <div class="activity-log" id="activityLog">
-                    <div class="activity-item">
-                        <div class="activity-icon">🤖</div>
-                        <div class="activity-text">
-                            <div><strong>AI Agent</strong> tự động tổng hợp báo cáo doanh thu ngày 22/06</div>
-                            <div class="activity-time">2 phút trước</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">📦</div>
-                        <div class="activity-text">
-                            <div><strong>n8n</strong> cập nhật 15 đơn hàng mới từ CoreDX → Notion</div>
-                            <div class="activity-time">8 phút trước</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">⚠️</div>
-                        <div class="activity-text">
-                            <div><strong>Alert</strong> Chi phí nguyên liệu vượt 7 triệu — đã gửi thông báo Lark</div>
-                            <div class="activity-time">25 phút trước</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">💬</div>
-                        <div class="activity-text">
-                            <div><strong>Chatbot</strong> trả lời truy vấn "doanh thu tuần này" trên LarkSuite</div>
-                            <div class="activity-time">1 giờ trước</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">🔄</div>
-                        <div class="activity-text">
-                            <div><strong>n8n</strong> đồng bộ 3 hóa đơn mới từ Misa → Báo cáo Notion</div>
-                            <div class="activity-time">2 giờ trước</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <footer style="text-align: center; padding: 20px 0; color: var(--text2); font-size: 12px;">
-                © 2026 HTX OneBee — Hội thi Khởi nghiệp ĐMST Tây Ninh | Mô hình Quản trị Hiện đại cùng AI
-            </footer>
+            <footer style="text-align:center; padding:20px 0; color:var(--text2); font-size:12px;">© 2026 HTX OneBee — Hệ sinh thái All-in-one Smart Management</footer>
         </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- 1. Terminal Modal -->
+    <div class="modal-overlay" id="terminalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="font-weight:600;display:flex;align-items:center;gap:8px"><span style="color:var(--purple)">🧠 Khối 4:</span> AI Engineering (Server Console)</div>
+                <button class="modal-close" onclick="closeModal('terminalModal')">×</button>
+            </div>
+            <div class="terminal-body" id="termBody">
+                <div style="opacity:0.5">Welcome to OneBee OS (GNU/Linux 6.1.0-server x86_64)</div><br>
+                <div><span class="term-prompt">admin@onebee:~$</span> <span class="cursor" id="termCursor"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. n8n Flow Modal -->
+    <div class="modal-overlay" id="flowModal">
+        <div class="modal-content" style="max-width:900px">
+            <div class="modal-header">
+                <div style="font-weight:600;display:flex;align-items:center;gap:8px"><span style="color:var(--teal)">⚡ Khối 3:</span> Workflow Tự động hóa (n8n Interface)</div>
+                <button class="modal-close" onclick="closeModal('flowModal')">×</button>
+            </div>
+            <div class="flow-body" id="flowBody">
+                <div style="position:absolute;top:10px;left:10px;color:#888;font-size:12px;display:flex;gap:12px">
+                    <span><span style="display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:4px"></span>Active</span>
+                    <span>ID: wf_revenue_sync_001</span>
+                </div>
+                <!-- Nodes rendered via JS -->
+            </div>
+        </div>
     </div>
 
     <!-- AI Chat Widget -->
     <div class="chat-widget">
         <div class="chat-panel" id="chatPanel">
             <div class="chat-header">
-                <div class="ai-avatar">🧠</div>
-                <div>
-                    <div class="ai-name">OneBee AI Assistant</div>
-                    <div class="ai-status">● Đang hoạt động (Llama 3)</div>
-                </div>
+                <div class="ai-avatar">🐝</div>
+                <div><div style="font-weight:600;font-size:14px">OneBee Manager AI</div><div style="font-size:11px;color:var(--green)">● Llama 3 8B (On-premise)</div></div>
+                <button style="margin-left:auto;background:none;border:none;color:var(--text);cursor:pointer;opacity:0.6" onclick="toggleChat()">×</button>
             </div>
             <div class="chat-messages" id="chatMessages">
-                <div class="msg msg-ai">
-                    Xin chào! Tôi là trợ lý AI của OneBee 🐝<br><br>
-                    Bạn có thể hỏi tôi về doanh thu, tồn kho, trạng thái đơn hàng, hoặc bất kỳ thông tin nào trong hệ thống.
-                </div>
+                <div class="msg msg-ai">Chào sếp! Hệ thống ghi nhận mọi thứ đang hoạt động ổn định.<br><br>Sếp cần em xuất báo cáo doanh thu, kiểm tra tồn kho, hay tra cứu thông tin dự án trên Lark?</div>
             </div>
             <div class="chat-input-wrap">
-                <input type="text" id="chatInput" placeholder="Hỏi AI: doanh thu hôm nay là bao nhiêu?" onkeydown="if(event.key==='Enter')sendChat()">
+                <input type="text" id="chatInput" placeholder="Ví dụ: Lập báo cáo doanh thu hôm nay..." onkeydown="if(event.key==='Enter')sendChat()">
                 <button class="chat-send" onclick="sendChat()">→</button>
             </div>
         </div>
-        <button class="chat-toggle" onclick="toggleChat()">🧠</button>
+        <button class="chat-toggle" onclick="toggleChat()">🤖</button>
     </div>
 
     <script>
-        // Live time
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('liveTime').textContent = 
-                now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        }
-        updateTime();
-        setInterval(updateTime, 1000);
-
-        // Simulate increasing exec count
-        let execCount = 1247;
+        // Clock
         setInterval(() => {
-            execCount += Math.floor(Math.random() * 3);
-            document.getElementById('execCount').textContent = execCount.toLocaleString();
-        }, 5000);
+            document.getElementById('liveTime').textContent = new Date().toLocaleTimeString('vi-VN');
+        }, 1000);
 
-        // Chat widget
-        function toggleChat() {
-            document.getElementById('chatPanel').classList.toggle('open');
+        // Modals Logic
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        
+        // Terminal Animation
+        let termRunning = false;
+        function openTerminalModal() {
+            document.getElementById('terminalModal').classList.add('active');
+            if(termRunning) return;
+            termRunning = true;
+            const term = document.getElementById('termBody');
+            const cursor = document.getElementById('termCursor');
+            const commands = [
+                { cmd: "goclaw health-check --all", delay: 1000 },
+                { out: "[INFO] Checking n8n automation engine... <span class='term-success'>[OK]</span>", delay: 500 },
+                { out: "[INFO] Checking LarkSuite API bridge... <span class='term-success'>[OK]</span>", delay: 400 },
+                { out: "[INFO] Checking Misa Accounting sync DB... <span class='term-success'>[OK]</span>", delay: 600 },
+                { out: "[WARN] Ollama VRAM usage at 85% (Model: llama3:8b) <span class='term-warning'>[WARNING]</span>", delay: 800 },
+                { out: "\n<span class='term-success'>Health check completed. System status: HEALTHY.</span>\n", delay: 500 },
+                { cmd: "openclaw log view --tail 5 --service ai_agent", delay: 1500 },
+                { out: "17:15:02 [AGENT] Query received: 'Doanh thu hôm nay'\n17:15:03 [AGENT] DB Lookup: CoreDX_Revenue table\n17:15:04 [AGENT] LLM Generation complete (1.2s)\n17:15:04 [AGENT] Sent reply to Lark Message channel", delay: 1000 },
+                { prompt: true }
+            ];
+
+            let htmlStr = term.innerHTML.replace('<span class="cursor" id="termCursor"></span>', '');
+            term.innerHTML = htmlStr;
+            let currentDelay = 0;
+
+            commands.forEach((c) => {
+                currentDelay += c.delay || 0;
+                setTimeout(() => {
+                    if(c.cmd) {
+                        typeCommand(c.cmd, () => {
+                            htmlStr += `<br>`;
+                            term.innerHTML = htmlStr;
+                            term.scrollTop = term.scrollHeight;
+                        });
+                    } else if(c.out) {
+                        htmlStr += `<div>${c.out}</div>`;
+                        term.innerHTML = htmlStr;
+                    } else if(c.prompt) {
+                        htmlStr += `<div><span class="term-prompt">admin@onebee:~$</span> <span class="cursor"></span></div>`;
+                        term.innerHTML = htmlStr;
+                    }
+                    term.scrollTop = term.scrollHeight;
+                }, currentDelay);
+            });
+
+            function typeCommand(text, cb) {
+                let i = 0;
+                let textDiv = document.createElement('span');
+                textDiv.className = 'term-command';
+                term.appendChild(textDiv);
+                let cursorSpan = document.createElement('span');
+                cursorSpan.className = 'cursor';
+                term.appendChild(cursorSpan);
+                
+                let int = setInterval(() => {
+                    textDiv.textContent += text[i];
+                    i++;
+                    if(i >= text.length) {
+                        clearInterval(int);
+                        term.removeChild(cursorSpan);
+                        htmlStr += `<span class="term-command">${text}</span>`;
+                        if(cb) cb();
+                    }
+                }, 50);
+            }
         }
 
-        const responses = {
-            'doanh thu': 'Doanh thu hôm nay (22/06): <strong>4.850.000đ</strong> 📈\n\nChi tiết:\n• Muối tôm: 2.100.000đ\n• Bánh tráng: 1.800.000đ\n• Nhang thơm: 950.000đ\n\nSo với hôm qua: <span style="color:var(--teal)">+12%</span>',
-            'tồn kho': 'Tình hình tồn kho hiện tại 📦\n\n• Muối tôm loại 1: <strong>150 gói</strong> (đủ 5 ngày)\n• Bánh tráng: <strong>80 bó</strong> (cần nhập thêm!)\n• Nhang thơm: <strong>200 bó</strong> (đủ 10 ngày)\n\n⚠️ <span style="color:var(--gold)">Bánh tráng sắp hết, cần nhập trong 2 ngày!</span>',
-            'đơn hàng': 'Trạng thái đơn hàng hôm nay 📋\n\n• Chờ xử lý: <strong>3 đơn</strong>\n• Đang giao: <strong>2 đơn</strong>\n• Hoàn thành: <strong>8 đơn</strong>\n\nĐơn lớn nhất: #DH-0622-05 — Combo quà đặc sản (1.500.000đ)',
-            'default': 'Tôi hiểu câu hỏi của bạn! 🤔\n\nHiện tại tôi có thể trả lời về:\n• <strong>Doanh thu</strong> (hôm nay, tuần, tháng)\n• <strong>Tồn kho</strong> (số lượng, cảnh báo)\n• <strong>Đơn hàng</strong> (trạng thái, chi tiết)\n\nBạn thử hỏi một trong các chủ đề trên nhé!'
-        };
+        // Flow Animation
+        function openFlowModal() {
+            document.getElementById('flowModal').classList.add('active');
+            const body = document.getElementById('flowBody');
+            
+            // Nodes definition
+            const nodes = [
+                { id: 'n1', title: 'Schedule Trigger', desc: 'Runs everyday at 18:00', x: 50, y: 150, color: '#ff4d6a' },
+                { id: 'n2', title: 'Misa ERP', desc: 'Fetch daily revenue data', x: 300, y: 80, color: '#f4b942' },
+                { id: 'n3', title: 'Notion', desc: 'Fetch project expenses', x: 300, y: 220, color: '#f4b942' },
+                { id: 'n4', title: 'AI Data Processor', desc: 'Aggregate & format', x: 550, y: 150, color: '#a855f7' },
+                { id: 'n5', title: 'LarkSuite', desc: 'Send Markdown Report', x: 800, y: 150, color: '#00d4aa' },
+            ];
 
+            let html = '';
+            // Draw lines
+            html += `<svg style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0">`;
+            html += `<path d="M230 180 Q265 180 265 110 L300 110" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M230 180 Q265 180 265 250 L300 250" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M480 110 Q515 110 515 180 L550 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M480 250 Q515 250 515 180 L550 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M730 180 L800 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `</svg>
+            <style>@keyframes dash { to { stroke-dashoffset: -10; } }</style>`;
+
+            // Draw nodes
+            nodes.forEach((n, i) => {
+                html += `<div class="flow-node" style="left:${n.x}px; top:${n.y}px; border-top-color:${n.color}; animation: nodeIn 0.4s ease forwards ${i*0.2}s">
+                    <strong style="color:${n.color}">${n.title}</strong>
+                    <span style="color:#666">${n.desc}</span>
+                </div>`;
+            });
+            html += `<style>@keyframes nodeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }</style>`;
+            
+            body.innerHTML += html;
+        }
+
+        // Chat
+        function toggleChat() { document.getElementById('chatPanel').classList.toggle('open'); }
+        
         function sendChat() {
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
-            if (!msg) return;
-
-            const messagesEl = document.getElementById('chatMessages');
+            if(!msg) return;
+            const container = document.getElementById('chatMessages');
             
-            // User message
-            messagesEl.innerHTML += `<div class="msg msg-user">${msg}</div>`;
+            container.innerHTML += `<div class="msg msg-user">${msg}</div>`;
             input.value = '';
+            container.scrollTop = container.scrollHeight;
 
-            // AI thinking
+            // Typing indicator
+            const typingId = 'typing_' + Date.now();
+            container.innerHTML += `<div class="msg msg-ai" id="${typingId}"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+            container.scrollTop = container.scrollHeight;
+
             setTimeout(() => {
-                let reply = responses.default;
+                const el = document.getElementById(typingId);
+                if(el) el.remove();
+
+                let reply = '';
                 const lower = msg.toLowerCase();
-                if (lower.includes('doanh thu') || lower.includes('thu nhập') || lower.includes('bán')) {
-                    reply = responses['doanh thu'];
-                } else if (lower.includes('tồn kho') || lower.includes('hàng') || lower.includes('kho')) {
-                    reply = responses['tồn kho'];
-                } else if (lower.includes('đơn') || lower.includes('order')) {
-                    reply = responses['đơn hàng'];
+                if(lower.includes('doanh thu') || lower.includes('báo cáo')) {
+                    reply = `📊 <strong>Báo cáo nhanh (CoreDX)</strong>:\n- Tổng thu hôm nay: <span style="color:var(--teal)">12.500.000đ</span>\n- Chi phí (Notion): <span style="color:var(--red)">3.200.000đ</span>\n- Tỷ suất lợi nhuận: 74%\n\nĐã ra lệnh cho n8n tự động gửi file Excel vào group LarkSuite của bạn! ✅`;
+                } else if(lower.includes('cảnh báo') || lower.includes('lỗi')) {
+                    reply = `⚠️ Hiện tại không có cảnh báo nghiêm trọng. Server AI hoạt động 100%. Tồn kho muối tôm còn 150 gói (đủ 5 ngày).`;
+                } else {
+                    reply = `Tôi là mô hình Llama 3 chạy cục bộ (on-premise), được tinh chỉnh cho HTX OneBee. Tôi có thể truy cập Database kế toán, đọc file nội bộ và điều khiển n8n.\n\nSếp cần tôi hỗ trợ việc gì?`;
                 }
 
-                messagesEl.innerHTML += `<div class="msg msg-ai">${reply.replace(/\n/g, '<br>')}</div>`;
-                messagesEl.scrollTop = messagesEl.scrollHeight;
-            }, 800);
+                container.innerHTML += `<div class="msg msg-ai" style="animation: slideUp 0.3s ease">${reply.replace(/\n/g, '<br>')}</div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 1500);
         }
-
-        // Simulate new activities
-        const newActivities = [
-            { icon: '📊', text: '<strong>AI Agent</strong> phân tích xu hướng bán hàng tuần 4 tháng 6', time: 'Vừa xong' },
-            { icon: '✅', text: '<strong>n8n</strong> tự động đối soát 5 hóa đơn đầu vào', time: '30 giây trước' },
-            { icon: '🧠', text: '<strong>Openclaw CLI</strong> chạy health-check hệ thống — Tất cả OK', time: '1 phút trước' },
-        ];
-
-        let actIdx = 0;
-        setInterval(() => {
-            if (actIdx >= newActivities.length) return;
-            const act = newActivities[actIdx];
-            const log = document.getElementById('activityLog');
-            const div = document.createElement('div');
-            div.className = 'activity-item';
-            div.style.animation = 'slideUp 0.5s ease';
-            div.innerHTML = `
-                <div class="activity-icon">${act.icon}</div>
-                <div class="activity-text">
-                    <div>${act.text}</div>
-                    <div class="activity-time">${act.time}</div>
-                </div>
-            `;
-            log.insertBefore(div, log.firstChild);
-            actIdx++;
-        }, 8000);
     </script>
 </body>
 </html>
