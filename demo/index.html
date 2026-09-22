@@ -386,7 +386,7 @@
                 <div class="msg msg-ai">Chào sếp! Hệ thống ghi nhận mọi thứ đang hoạt động ổn định.<br><br>Sếp cần em xuất báo cáo doanh thu, kiểm tra tồn kho, hay tra cứu thông tin dự án trên Lark?</div>
             </div>
             <div class="chat-input-wrap">
-                <input type="text" id="chatInput" placeholder="Ví dụ: Lập báo cáo doanh thu hôm nay..." onkeydown="if(event.key==='Enter')sendChat()">
+                <input type="text" id="chatInput" placeholder="Ví dụ: Lập báo cáo doanh thu hôm nay..." onkeydown="handleChatKeydown(event)">
                 <button class="chat-send" onclick="sendChat()">→</button>
             </div>
         </div>
@@ -508,6 +508,13 @@
         // Chat
         function toggleChat() { document.getElementById('chatPanel').classList.toggle('open'); }
         
+        function handleChatKeydown(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendChat();
+            }
+        }
+
         function sendChat() {
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
