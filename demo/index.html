@@ -184,6 +184,8 @@
         .flow-node { position: absolute; background: white; border-radius: 8px; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 180px; font-size: 12px; border-top: 4px solid var(--teal); opacity: 0; transform: translateY(10px); }
         .flow-line { position: absolute; border: 1px dashed #ccc; z-index: 0; opacity: 0; }
         .flow-node strong { display: block; font-size: 13px; margin-bottom: 4px; }
+        @keyframes dash { to { stroke-dashoffset: -10; } }
+        @keyframes nodeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
         /* AI Chat Widget */
         .chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 100; }
@@ -278,7 +280,7 @@
                     <div class="block-title">Kế toán Chuẩn hóa</div>
                     <div class="block-desc">Minh bạch luồng tiền, đối soát hóa đơn</div>
                     <div class="block-tools"><span class="tool-tag">Misa</span><span class="tool-tag">Kế toán HTX</span></div>
-                    <div class="block-status" style="color:var(--green)"><span class="status-dot"></span> Đã đồng bộ 847 GD</div>
+                    <div class="block-status" style="color:var(--green)"><span class="status-dot"></span> 847 GD (dữ liệu mẫu)</div>
                 </div>
 
                 <div class="block-card" onclick="openFlowModal()">
@@ -460,14 +462,13 @@
 
             let html = '';
             // Draw lines
-            html += `<svg style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0">`;
+            html += `<svg style="position:absolute;top:0;left:0;width:900px;height:100%;z-index:0">`;
             html += `<path d="M210 180 Q230 180 230 110 L250 110" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
             html += `<path d="M210 180 Q230 180 230 250 L250 250" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
             html += `<path d="M430 110 Q450 110 450 180 L470 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
             html += `<path d="M430 250 Q450 250 450 180 L470 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
             html += `<path d="M650 180 L690 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
-            html += `</svg>
-            <style>@keyframes dash { to { stroke-dashoffset: -10; } }</style>`;
+            html += `</svg>`;
 
             // Draw nodes
             nodes.forEach((n, i) => {
@@ -476,13 +477,13 @@
                     <span style="color:#666">${n.desc}</span>
                 </div>`;
             });
-            html += `<style>@keyframes nodeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }</style>`;
             
             if (!body.dataset.base) body.dataset.base = body.innerHTML;
             body.innerHTML = body.dataset.base + html;
         }
 
         // Chat
+        let isChatting = false;
         function toggleChat() { document.getElementById('chatPanel').classList.toggle('open'); }
         
         function handleChatKeydown(e) {
@@ -493,9 +494,11 @@
         }
 
         function sendChat() {
+            if (isChatting) return;
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
-            if(!msg) return;
+            if (!msg) return;
+            isChatting = true;
             const container = document.getElementById('chatMessages');
             
             const userEl = document.createElement('div'); userEl.className = 'msg msg-user'; userEl.textContent = msg; container.appendChild(userEl);
@@ -504,27 +507,28 @@
 
             // Typing indicator
             const typingId = 'typing_' + Date.now();
-            container.innerHTML += `<div class="msg msg-ai" id="${typingId}"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+            container.insertAdjacentHTML('beforeend', `<div class="msg msg-ai" id="${typingId}"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`);
             container.scrollTop = container.scrollHeight;
 
             setTimeout(() => {
                 const el = document.getElementById(typingId);
-                if(el) el.remove();
+                if (el) el.remove();
 
                 let reply = '';
                 const lower = msg.toLowerCase();
                 if (lower.includes('tồn kho') || lower.includes('ton kho')) {
                     reply = `📦 <strong>Tồn kho (dữ liệu mẫu)</strong>:\n- Muối tôm: 150 gói (đủ khoảng 5 ngày)\n- Bánh tráng: 420 xấp\n\n<i>Bản thật: n8n đồng bộ tồn kho từ phần mềm bán hàng và gửi cảnh báo khi dưới ngưỡng.</i>`;
-                } else if (lower.includes('doanh thu') || lower.includes('báo cáo')) {
+                } else if (lower.includes('doanh thu') || lower.includes('doanhthu') || lower.includes('báo cáo') || lower.includes('bao cao') || lower.includes('lợi nhuận') || lower.includes('loi nhuan')) {
                     reply = `📊 <strong>Báo cáo nhanh (dữ liệu mẫu)</strong>:\n- Tổng thu hôm nay: <span style="color:var(--teal)">12.500.000đ</span>\n- Chi phí: <span style="color:var(--red)">3.200.000đ</span>\n- Tỷ suất lợi nhuận: 74%\n\n<i>Bản thật: n8n tổng hợp từ phần mềm kế toán và gửi báo cáo vào nhóm LarkSuite.</i>`;
-                } else if (lower.includes('cảnh báo') || lower.includes('lỗi')) {
+                } else if (lower.includes('cảnh báo') || lower.includes('canh bao') || lower.includes('lỗi') || lower.includes('báo lỗi') || lower.includes('bao loi')) {
                     reply = `⚠️ (Dữ liệu mẫu) Không có cảnh báo nghiêm trọng.\n\n<i>Bản thật: AI theo dõi các khoản chi bất thường và báo cho người phụ trách duyệt.</i>`;
                 } else {
                     reply = `Đây là trợ lý <strong>mô phỏng</strong> nên chỉ trả lời được vài câu mẫu: <i>doanh thu hôm nay</i>, <i>tồn kho</i>, <i>cảnh báo</i>.\n\nỞ bản thật, AI chạy trên máy chủ của HTX và chỉ đọc những dữ liệu được cấp quyền.`;
                 }
 
-                container.innerHTML += `<div class="msg msg-ai" style="animation: slideUp 0.3s ease">${reply.replace(/\n/g, '<br>')}</div>`;
+                container.insertAdjacentHTML('beforeend', `<div class="msg msg-ai" style="animation: slideUp 0.3s ease">${reply.replace(/\n/g, '<br>')}</div>`);
                 container.scrollTop = container.scrollHeight;
+                isChatting = false;
             }, 1500);
         }
     </script>
