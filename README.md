@@ -19,11 +19,11 @@
 
 ## 🎯 Vấn đề
 
-Chuyển đổi số là bài toán sống còn, nhưng hệ thống ERP truyền thống **cồng kềnh** và **tốn kém** (50-100 triệu+). Dữ liệu tại nhiều HTX/SME bị **phân mảnh** giữa nhóm chat, Excel và phần mềm kế toán riêng lẻ.
+Chuyển đổi số là bài toán sống còn, nhưng hệ thống ERP đóng gói **cồng kềnh** và **tốn kém** (bản quyền theo người dùng, cộng phí tư vấn và tùy biến). Dữ liệu tại nhiều HTX/SME bị **phân mảnh** giữa nhóm chat, Excel và phần mềm kế toán riêng lẻ.
 
 ## 💡 Giải pháp
 
-**Lắp ráp thông minh 4 khối quản trị** từ các công cụ SaaS hiện đại kết hợp AI, tạo ra hệ sinh thái all-in-one với chi phí chỉ bằng **1/10** so với ERP truyền thống.
+**Lắp ráp thông minh 4 khối quản trị** từ các công cụ SaaS hiện đại kết hợp AI, tạo ra hệ sinh thái all-in-one với phí thiết lập **từ 15 triệu đồng** và lộ trình chuẩn **30 ngày**.
 
 ## ✨ Kiến trúc 4 Khối Quản trị
 
@@ -36,8 +36,8 @@ Chuyển đổi số là bài toán sống còn, nhưng hệ thống ERP truyề
 │  │ 🤝 Vận hành  │    │ 💰 Kế toán   │                       │
 │  │ & Cộng tác   │    │ Chuẩn hóa    │                       │
 │  │              │    │              │                       │
-│  │ LarkSuite    │    │ CoreDX/Misa  │                       │
-│  │ Notion       │    │ Vietbooks    │                       │
+│  │ LarkSuite    │    │ Misa/KT HTX  │                       │
+│  │ Notion       │    │ TT 71/2024   │                       │
 │  │ OKRs, Tasks  │    │ Thuế, HĐ     │                       │
 │  └──────┬───────┘    └──────┬───────┘                       │
 │         │    ┌──────────────┤                                │
@@ -47,7 +47,7 @@ Chuyển đổi số là bài toán sống còn, nhưng hệ thống ERP truyề
 │  │ ⚡ Tự động hóa   │    │  KHỐI 4      │                   │
 │  │                  │    │ 🤖 AI Engine │                   │
 │  │ n8n / Hermes     │◄──►│              │                   │
-│  │ Zero-touch Ops   │    │ CLI AI tools │                   │
+│  │ Zero-touch Ops   │    │ AI Agent     │                   │
 │  │ API Gateway      │    │ openclaw     │                   │
 │  └──────────────────┘    │ goclaw       │                   │
 │                          └──────────────┘                   │
@@ -59,7 +59,7 @@ Chuyển đổi số là bài toán sống còn, nhưng hệ thống ERP truyề
 | Khối | Tính năng | Công cụ |
 |------|-----------|---------|
 | 🤝 **Vận hành** | Quản lý dự án, OKRs, giao tiếp nội bộ, tri thức | LarkSuite / Notion |
-| 💰 **Kế toán** | Hóa đơn, thuế, đối soát, báo cáo tài chính | CoreDX / Misa / Vietbooks |
+| 💰 **Kế toán** | Hóa đơn, thuế, đối soát, báo cáo tài chính | Misa / phần mềm kế toán HTX (Thông tư 71/2024/TT-BTC) |
 | ⚡ **Tự động hóa** | API bridge, workflow tự động, zero-touch | n8n / Hermes Agent |
 | 🤖 **AI Engine** | Chatbot truy vấn, giám sát, cảnh báo bất thường | openclaw, goclaw, Gemini |
 
@@ -82,7 +82,7 @@ Chuyển đổi số là bài toán sống còn, nhưng hệ thống ERP truyề
 | Lớp | Công nghệ |
 |-----|-----------|
 | Cộng tác | LarkSuite, Notion |
-| Kế toán | CoreDX, Misa, Vietbooks |
+| Kế toán | Misa, phần mềm kế toán HTX |
 | Tự động hóa | n8n (self-hosted) |
 | AI | Gemini, Ollama, openclaw, goclaw |
 | Hạ tầng | Ubuntu Server, Docker |
@@ -99,7 +99,7 @@ cd da2-mo-hinh-quan-tri-hien-dai-cung-ai
 open demo/index.html
 ```
 
-> 💡 Demo web mô phỏng Dashboard 4 khối quản trị + AI Chatbot truy vấn doanh thu.
+> 💡 Demo web **mô phỏng giao diện** Dashboard 4 khối quản trị + AI Chatbot. Dữ liệu minh họa, chưa kết nối n8n/AI thật — dự án đang ở giai đoạn ý tưởng.
 
 ## 📁 Cấu trúc dự án
 

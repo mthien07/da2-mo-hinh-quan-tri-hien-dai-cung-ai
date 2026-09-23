@@ -174,11 +174,13 @@
         .term-info { color: var(--blue); }
         .term-warning { color: var(--gold); }
         .term-success { color: var(--teal); }
+        .demo-ribbon { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 900; background: #2b2410; color: #f4b942; border: 1px solid rgba(244,185,66,0.5); padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; pointer-events: none; white-space: nowrap; }
+        @media (max-width: 768px) { .demo-ribbon { bottom: 90px; font-size: 11px; white-space: normal; text-align: center; width: calc(100% - 48px); } }
         .cursor { display: inline-block; width: 8px; height: 15px; background: var(--text); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 4px; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* Flow UI */
-        .flow-body { padding: 40px; background: #f8f9fa; color: #333; height: 400px; position: relative; overflow: hidden; }
+        .flow-body { padding: 40px; background: #f8f9fa; color: #333; height: 400px; position: relative; overflow-x: auto; overflow-y: hidden; }
         .flow-node { position: absolute; background: white; border-radius: 8px; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 180px; font-size: 12px; border-top: 4px solid var(--teal); opacity: 0; transform: translateY(10px); }
         .flow-line { position: absolute; border: 1px dashed #ccc; z-index: 0; opacity: 0; }
         .flow-node strong { display: block; font-size: 13px; margin-bottom: 4px; }
@@ -225,6 +227,7 @@
     </style>
 </head>
 <body>
+    <div class="demo-ribbon">Bản demo mô phỏng giao diện · Dữ liệu minh họa, chưa kết nối hệ thống thật</div>
     <div class="layout">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -274,7 +277,7 @@
                     <div class="block-header"><span class="block-num">KHỐI 2</span><span class="block-icon">💳</span></div>
                     <div class="block-title">Kế toán Chuẩn hóa</div>
                     <div class="block-desc">Minh bạch luồng tiền, đối soát hóa đơn</div>
-                    <div class="block-tools"><span class="tool-tag">CoreDX</span><span class="tool-tag">Misa</span></div>
+                    <div class="block-tools"><span class="tool-tag">Misa</span><span class="tool-tag">Kế toán HTX</span></div>
                     <div class="block-status" style="color:var(--green)"><span class="status-dot"></span> Đã đồng bộ 847 GD</div>
                 </div>
 
@@ -291,7 +294,7 @@
                     <div class="block-title">AI Engineering (Nhấn xem)</div>
                     <div class="block-desc">Trợ lý CLI, giám sát sức khỏe Server</div>
                     <div class="block-tools"><span class="tool-tag">openclaw</span><span class="tool-tag">goclaw</span></div>
-                    <div class="block-status" style="color:var(--purple)"><span class="status-dot" style="background:var(--purple)"></span> Llama 3 8B Online</div>
+                    <div class="block-status" style="color:var(--purple)"><span class="status-dot" style="background:var(--purple)"></span> AI chạy nội bộ (mô phỏng)</div>
                 </div>
             </div>
 
@@ -308,7 +311,7 @@
                         <div class="wf-arrow">↓</div>
                         <div class="wf-node">
                             <div class="node-icon">📦</div>
-                            <div style="flex:1"><div style="font-weight:600;font-size:13px">Sync Đơn hàng Shopee</div><div style="font-size:11px;color:var(--text2)">Shopee API → CoreDX → Cảnh báo tồn kho</div></div>
+                            <div style="flex:1"><div style="font-weight:600;font-size:13px">Sync Đơn hàng Shopee</div><div style="font-size:11px;color:var(--text2)">Shopee API → Kế toán → Cảnh báo tồn kho</div></div>
                             <span style="font-size:11px;color:var(--green)">● OK</span>
                         </div>
                         <div class="wf-arrow">↓</div>
@@ -321,7 +324,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="section-title">📈 Hiệu quả Triển khai (Sau 1 tháng)</div>
+                    <div class="section-title">📈 Mục tiêu sau 1 tháng triển khai (minh họa)</div>
                     <div class="live-stats">
                         <div class="live-stat">
                             <div><div style="font-size:13px;color:var(--text2)">Thời gian xử lý kế toán/ngày</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Trước: 4 giờ → Sau: 1.5 giờ</div></div>
@@ -347,7 +350,7 @@
     <div class="modal-overlay" id="terminalModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div style="font-weight:600;display:flex;align-items:center;gap:8px"><span style="color:var(--purple)">🧠 Khối 4:</span> AI Engineering (Server Console)</div>
+                <div style="font-weight:600;display:flex;align-items:center;gap:8px"><span style="color:var(--purple)">🧠 Khối 4:</span> AI Engineering (Server Console · mô phỏng)</div>
                 <button class="modal-close" onclick="closeModal('terminalModal')">×</button>
             </div>
             <div class="terminal-body" id="termBody">
@@ -361,7 +364,7 @@
     <div class="modal-overlay" id="flowModal">
         <div class="modal-content" style="max-width:900px">
             <div class="modal-header">
-                <div style="font-weight:600;display:flex;align-items:center;gap:8px"><span style="color:var(--teal)">⚡ Khối 3:</span> Workflow Tự động hóa (n8n Interface)</div>
+                <div style="font-weight:600;display:flex;align-items:center;gap:8px"><span style="color:var(--teal)">⚡ Khối 3:</span> Workflow Tự động hóa (mô phỏng giao diện n8n)</div>
                 <button class="modal-close" onclick="closeModal('flowModal')">×</button>
             </div>
             <div class="flow-body" id="flowBody">
@@ -379,11 +382,11 @@
         <div class="chat-panel" id="chatPanel">
             <div class="chat-header">
                 <div class="ai-avatar">🐝</div>
-                <div><div style="font-weight:600;font-size:14px">OneBee Manager AI</div><div style="font-size:11px;color:var(--green)">● Llama 3 8B (On-premise)</div></div>
+                <div><div style="font-weight:600;font-size:14px">OneBee Manager AI</div><div style="font-size:11px;color:var(--green)">● Trợ lý AI mô phỏng (demo)</div></div>
                 <button style="margin-left:auto;background:none;border:none;color:var(--text);cursor:pointer;opacity:0.6" onclick="toggleChat()">×</button>
             </div>
             <div class="chat-messages" id="chatMessages">
-                <div class="msg msg-ai">Chào sếp! Hệ thống ghi nhận mọi thứ đang hoạt động ổn định.<br><br>Sếp cần em xuất báo cáo doanh thu, kiểm tra tồn kho, hay tra cứu thông tin dự án trên Lark?</div>
+                <div class="msg msg-ai">Chào anh/chị! Đây là trợ lý AI <b>mô phỏng</b> để minh họa cách hỏi đáp.<br><br>Hãy thử hỏi: <i>“doanh thu hôm nay”</i>, <i>“tồn kho”</i> hoặc <i>“cảnh báo”</i>.</div>
             </div>
             <div class="chat-input-wrap">
                 <input type="text" id="chatInput" placeholder="Ví dụ: Lập báo cáo doanh thu hôm nay..." onkeydown="handleChatKeydown(event)">
@@ -402,69 +405,42 @@
         // Modals Logic
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         
-        // Terminal Animation
+        // Terminal Animation (mô phỏng) — chạy tuần tự để không ghi đè DOM
         let termRunning = false;
-        function openTerminalModal() {
+        const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+        async function openTerminalModal() {
             document.getElementById('terminalModal').classList.add('active');
-            if(termRunning) return;
+            if (termRunning) return;
             termRunning = true;
             const term = document.getElementById('termBody');
-            const cursor = document.getElementById('termCursor');
-            const commands = [
-                { cmd: "goclaw health-check --all", delay: 1000 },
-                { out: "[INFO] Checking n8n automation engine... <span class='term-success'>[OK]</span>", delay: 500 },
-                { out: "[INFO] Checking LarkSuite API bridge... <span class='term-success'>[OK]</span>", delay: 400 },
-                { out: "[INFO] Checking Misa Accounting sync DB... <span class='term-success'>[OK]</span>", delay: 600 },
-                { out: "[WARN] Ollama VRAM usage at 85% (Model: llama3:8b) <span class='term-warning'>[WARNING]</span>", delay: 800 },
-                { out: "\n<span class='term-success'>Health check completed. System status: HEALTHY.</span>\n", delay: 500 },
-                { cmd: "openclaw log view --tail 5 --service ai_agent", delay: 1500 },
-                { out: "17:15:02 [AGENT] Query received: 'Doanh thu hôm nay'\n17:15:03 [AGENT] DB Lookup: CoreDX_Revenue table\n17:15:04 [AGENT] LLM Generation complete (1.2s)\n17:15:04 [AGENT] Sent reply to Lark Message channel", delay: 1000 },
-                { prompt: true }
+            const idle = document.getElementById('termCursor');
+            if (idle) idle.parentElement.remove();
+            const steps = [
+                { cmd: "goclaw health-check --all", delay: 600 },
+                { out: "[INFO] Checking n8n automation engine... <span class='term-success'>[OK]</span>", delay: 400 },
+                { out: "[INFO] Checking LarkSuite API bridge... <span class='term-success'>[OK]</span>", delay: 300 },
+                { out: "[INFO] Checking accounting sync DB... <span class='term-success'>[OK]</span>", delay: 400 },
+                { out: "[WARN] Ollama VRAM usage at 85% (Model: llama3:8b) <span class='term-warning'>[WARNING]</span>", delay: 500 },
+                { out: "<span class='term-success'>Health check completed. System status: HEALTHY.</span>", delay: 400 },
+                { cmd: "openclaw log view --tail 5 --service ai_agent", delay: 900 },
+                { out: "17:15:02 [AGENT] Query received: 'Doanh thu hôm nay'<br>17:15:03 [AGENT] DB Lookup: accounting_revenue<br>17:15:04 [AGENT] LLM Generation complete (1.2s)<br>17:15:04 [AGENT] Sent reply to Lark Message channel", delay: 600 },
+                { out: "<span style='opacity:.6'># Dữ liệu log mô phỏng phục vụ trình diễn</span>", delay: 300 },
+                { prompt: true, delay: 200 },
             ];
-
-            let htmlStr = term.innerHTML.replace('<span class="cursor" id="termCursor"></span>', '');
-            term.innerHTML = htmlStr;
-            let currentDelay = 0;
-
-            commands.forEach((c) => {
-                currentDelay += c.delay || 0;
-                setTimeout(() => {
-                    if(c.cmd) {
-                        typeCommand(c.cmd, () => {
-                            htmlStr += `<br>`;
-                            term.innerHTML = htmlStr;
-                            term.scrollTop = term.scrollHeight;
-                        });
-                    } else if(c.out) {
-                        htmlStr += `<div>${c.out}</div>`;
-                        term.innerHTML = htmlStr;
-                    } else if(c.prompt) {
-                        htmlStr += `<div><span class="term-prompt">admin@onebee:~$</span> <span class="cursor"></span></div>`;
-                        term.innerHTML = htmlStr;
-                    }
-                    term.scrollTop = term.scrollHeight;
-                }, currentDelay);
-            });
-
-            function typeCommand(text, cb) {
-                let i = 0;
-                let textDiv = document.createElement('span');
-                textDiv.className = 'term-command';
-                term.appendChild(textDiv);
-                let cursorSpan = document.createElement('span');
-                cursorSpan.className = 'cursor';
-                term.appendChild(cursorSpan);
-                
-                let int = setInterval(() => {
-                    textDiv.textContent += text[i];
-                    i++;
-                    if(i >= text.length) {
-                        clearInterval(int);
-                        term.removeChild(cursorSpan);
-                        htmlStr += `<span class="term-command">${text}</span>`;
-                        if(cb) cb();
-                    }
-                }, 50);
+            for (const st of steps) {
+                await sleep(st.delay || 0);
+                const line = document.createElement('div');
+                if (st.cmd) {
+                    line.innerHTML = "<span class='term-prompt'>admin@onebee:~$</span> ";
+                    const t = document.createElement('span'); t.className = 'term-command'; line.appendChild(t);
+                    term.appendChild(line);
+                    for (const ch of st.cmd) { t.textContent += ch; await sleep(35); }
+                } else if (st.out) {
+                    line.innerHTML = st.out; term.appendChild(line);
+                } else if (st.prompt) {
+                    line.innerHTML = "<span class='term-prompt'>admin@onebee:~$</span> <span class='cursor'></span>"; term.appendChild(line);
+                }
+                term.scrollTop = term.scrollHeight;
             }
         }
 
@@ -475,21 +451,21 @@
             
             // Nodes definition
             const nodes = [
-                { id: 'n1', title: 'Schedule Trigger', desc: 'Runs everyday at 18:00', x: 50, y: 150, color: '#ff4d6a' },
-                { id: 'n2', title: 'Misa ERP', desc: 'Fetch daily revenue data', x: 300, y: 80, color: '#f4b942' },
-                { id: 'n3', title: 'Notion', desc: 'Fetch project expenses', x: 300, y: 220, color: '#f4b942' },
-                { id: 'n4', title: 'AI Data Processor', desc: 'Aggregate & format', x: 550, y: 150, color: '#a855f7' },
-                { id: 'n5', title: 'LarkSuite', desc: 'Send Markdown Report', x: 800, y: 150, color: '#00d4aa' },
+                { id: 'n1', title: 'Schedule Trigger', desc: 'Runs everyday at 18:00', x: 30, y: 150, color: '#ff4d6a' },
+                { id: 'n2', title: 'Misa ERP', desc: 'Fetch daily revenue data', x: 250, y: 80, color: '#f4b942' },
+                { id: 'n3', title: 'Notion', desc: 'Fetch project expenses', x: 250, y: 220, color: '#f4b942' },
+                { id: 'n4', title: 'AI Data Processor', desc: 'Aggregate & format', x: 470, y: 150, color: '#a855f7' },
+                { id: 'n5', title: 'LarkSuite', desc: 'Send Markdown Report', x: 690, y: 150, color: '#00d4aa' },
             ];
 
             let html = '';
             // Draw lines
             html += `<svg style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0">`;
-            html += `<path d="M230 180 Q265 180 265 110 L300 110" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
-            html += `<path d="M230 180 Q265 180 265 250 L300 250" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
-            html += `<path d="M480 110 Q515 110 515 180 L550 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
-            html += `<path d="M480 250 Q515 250 515 180 L550 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
-            html += `<path d="M730 180 L800 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M210 180 Q230 180 230 110 L250 110" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M210 180 Q230 180 230 250 L250 250" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M430 110 Q450 110 450 180 L470 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M430 250 Q450 250 450 180 L470 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
+            html += `<path d="M650 180 L690 180" fill="none" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" class="svg-line" style="animation: dash 1s linear infinite" />`;
             html += `</svg>
             <style>@keyframes dash { to { stroke-dashoffset: -10; } }</style>`;
 
@@ -502,7 +478,8 @@
             });
             html += `<style>@keyframes nodeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }</style>`;
             
-            body.innerHTML += html;
+            if (!body.dataset.base) body.dataset.base = body.innerHTML;
+            body.innerHTML = body.dataset.base + html;
         }
 
         // Chat
@@ -521,7 +498,7 @@
             if(!msg) return;
             const container = document.getElementById('chatMessages');
             
-            container.innerHTML += `<div class="msg msg-user">${msg}</div>`;
+            const userEl = document.createElement('div'); userEl.className = 'msg msg-user'; userEl.textContent = msg; container.appendChild(userEl);
             input.value = '';
             container.scrollTop = container.scrollHeight;
 
@@ -536,12 +513,14 @@
 
                 let reply = '';
                 const lower = msg.toLowerCase();
-                if(lower.includes('doanh thu') || lower.includes('báo cáo')) {
-                    reply = `📊 <strong>Báo cáo nhanh (CoreDX)</strong>:\n- Tổng thu hôm nay: <span style="color:var(--teal)">12.500.000đ</span>\n- Chi phí (Notion): <span style="color:var(--red)">3.200.000đ</span>\n- Tỷ suất lợi nhuận: 74%\n\nĐã ra lệnh cho n8n tự động gửi file Excel vào group LarkSuite của bạn! ✅`;
-                } else if(lower.includes('cảnh báo') || lower.includes('lỗi')) {
-                    reply = `⚠️ Hiện tại không có cảnh báo nghiêm trọng. Server AI hoạt động 100%. Tồn kho muối tôm còn 150 gói (đủ 5 ngày).`;
+                if (lower.includes('tồn kho') || lower.includes('ton kho')) {
+                    reply = `📦 <strong>Tồn kho (dữ liệu mẫu)</strong>:\n- Muối tôm: 150 gói (đủ khoảng 5 ngày)\n- Bánh tráng: 420 xấp\n\n<i>Bản thật: n8n đồng bộ tồn kho từ phần mềm bán hàng và gửi cảnh báo khi dưới ngưỡng.</i>`;
+                } else if (lower.includes('doanh thu') || lower.includes('báo cáo')) {
+                    reply = `📊 <strong>Báo cáo nhanh (dữ liệu mẫu)</strong>:\n- Tổng thu hôm nay: <span style="color:var(--teal)">12.500.000đ</span>\n- Chi phí: <span style="color:var(--red)">3.200.000đ</span>\n- Tỷ suất lợi nhuận: 74%\n\n<i>Bản thật: n8n tổng hợp từ phần mềm kế toán và gửi báo cáo vào nhóm LarkSuite.</i>`;
+                } else if (lower.includes('cảnh báo') || lower.includes('lỗi')) {
+                    reply = `⚠️ (Dữ liệu mẫu) Không có cảnh báo nghiêm trọng.\n\n<i>Bản thật: AI theo dõi các khoản chi bất thường và báo cho người phụ trách duyệt.</i>`;
                 } else {
-                    reply = `Tôi là mô hình Llama 3 chạy cục bộ (on-premise), được tinh chỉnh cho HTX OneBee. Tôi có thể truy cập Database kế toán, đọc file nội bộ và điều khiển n8n.\n\nSếp cần tôi hỗ trợ việc gì?`;
+                    reply = `Đây là trợ lý <strong>mô phỏng</strong> nên chỉ trả lời được vài câu mẫu: <i>doanh thu hôm nay</i>, <i>tồn kho</i>, <i>cảnh báo</i>.\n\nỞ bản thật, AI chạy trên máy chủ của HTX và chỉ đọc những dữ liệu được cấp quyền.`;
                 }
 
                 container.innerHTML += `<div class="msg msg-ai" style="animation: slideUp 0.3s ease">${reply.replace(/\n/g, '<br>')}</div>`;
